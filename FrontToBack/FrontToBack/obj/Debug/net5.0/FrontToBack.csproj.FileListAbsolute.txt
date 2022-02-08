@@ -139,3 +139,8 @@ D:\P320\4. ASP .NET\2. MVC\3.03022022\FrontToBack\FrontToBack\FrontToBack\obj\De
 D:\P320\4. ASP .NET\2. MVC\3.03022022\FrontToBack\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
 D:\P320\4. ASP .NET\2. MVC\3.03022022\FrontToBack\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Views\_ViewImports.cshtml.g.cs
 D:\P320\4. ASP .NET\2. MVC\3.03022022\FrontToBack\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Views\_ViewStart.cshtml.g.cs
+D:\P320\4. ASP .NET\2. MVC\3.03022022\FrontToBack\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Views\Products\Index.cshtml.g.cs
+D:\P320\4. ASP .NET\2. MVC\3.03022022\FrontToBack\FrontToBack\FrontToBack\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\P320\4. ASP .NET\2. MVC\3.03022022\FrontToBack\FrontToBack\FrontToBack\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\P320\4. ASP .NET\2. MVC\3.03022022\FrontToBack\FrontToBack\FrontToBack\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
+D:\P320\4. ASP .NET\2. MVC\3.03022022\FrontToBack\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Views\Shared\_ProductPartial.cshtml.g.cs

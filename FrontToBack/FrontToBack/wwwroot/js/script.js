@@ -1,4 +1,40 @@
 $(document).ready(function () {
+    var skip = 4;
+
+    //$(document).on('click', '#LoadMore', function () {
+    //    $.ajax({
+    //        type: "GET",
+    //        url: "/Products/Load?skip=" + skip,
+    //        success: function (res) {
+    //            $("#productRow").append(res);
+    //            skip += 4;
+
+    //            var productsCount = $("#productsCount").val();
+
+    //            if (skip >= productsCount) {
+    //                $("#LoadMore").remove();
+    //            }
+
+    //        }
+    //    })
+    //})
+
+    $(document).scroll( function () {
+        $.ajax({
+            type: "GET",
+            url: "/Products/Load?skip=" + skip,
+            success: function (res) {
+                $("#productRow").append(res);
+                skip += 4;
+
+                var productsCount = $("#productsCount").val();
+
+                if (skip >= productsCount) {
+                    $("#LoadMore").remove();
+                }
+            }
+        })
+    })
 
     // HEADER
 
