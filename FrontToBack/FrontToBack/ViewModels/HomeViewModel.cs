@@ -12,6 +12,13 @@ namespace FrontToBack.ViewModels
         public About Abouts { get; set; }
         public AboutImage AboutImages { get; set; }
         public List<AboutList> AboutLists { get; set; }
+        public ExpertsTitle ExpertsTitles { get; set; }
+        public List<Expert> Experts { get; set; }
+        public Subscribe Subscribes { get; set; }
+        public BlogTitle BlogTitles { get; set; }
+        public List<BlogContent> BlogContents { get; set; }
+        public List<Say> Says { get; set; }
+        public List<Instagrams> Instagramss { get; set; }
 
     }
 }

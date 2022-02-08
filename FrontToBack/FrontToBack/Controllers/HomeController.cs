@@ -24,6 +24,15 @@ namespace FrontToBack.Controllers
             var abouts = _dbContext.Abouts.SingleOrDefault();
             var aboutImages = _dbContext.AboutImages.SingleOrDefault();
             var aboutLists = _dbContext.AboutLists.ToList();
+            var expertsTitles = _dbContext.ExpertsTitles.SingleOrDefault();
+            var experts = _dbContext.Experts.ToList();
+            var subscribes = _dbContext.Subscribes.SingleOrDefault();
+            var blogTitles = _dbContext.BlogTitles.SingleOrDefault();
+            var blogContent = _dbContext.BlogContents.ToList();
+            var say = _dbContext.Says.ToList();
+            var instagrams = _dbContext.Instagramss.ToList();
+
+
 
             return View(new HomeViewModel
             {
@@ -33,8 +42,15 @@ namespace FrontToBack.Controllers
                 Products=products,
                 Abouts= abouts,
                 AboutLists= aboutLists, 
-                AboutImages= aboutImages
-
+                AboutImages= aboutImages,
+                ExpertsTitles=expertsTitles,   
+                Experts = experts,
+                Subscribes= subscribes,
+                BlogTitles= blogTitles,
+                BlogContents= blogContent,
+                Says= say,
+                Instagramss=instagrams
+                
             });
         }
     }
