@@ -3,6 +3,7 @@ using FrontToBack.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FrontToBack.Controllers
 {
@@ -15,9 +16,9 @@ namespace FrontToBack.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var sliderImages = _dbContext.SliderImages.ToList();
+            var sliderImages = await _dbContext.SliderImages.ToListAsync();
             var slider = _dbContext.Sliders.SingleOrDefault();
             var categorys=_dbContext.Categorys.ToList();
             var products=_dbContext.Products.Include(x=>x.Category).ToList();

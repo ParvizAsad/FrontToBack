@@ -19,7 +19,7 @@ $(document).ready(function () {
     //    })
     //})
 
-    $(document).scroll( function () {
+    $(document).on('scroll', function () {
         $.ajax({
             type: "GET",
             url: "/Products/Load?skip=" + skip,
