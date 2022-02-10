@@ -24,5 +24,7 @@ namespace FrontToBack.DataAccessLayer
         public DbSet<BlogContent> BlogContents { get; set; }
         public DbSet<Say> Says { get; set; }
         public DbSet<Instagrams> Instagramss { get; set; }
+        public DbSet<Bio> Bios { get; set; }
+   
     }
 }

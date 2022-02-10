@@ -1,25 +1,35 @@
 $(document).ready(function () {
+
+    var searchedProduct;
+    $(document).on('keyup', '#input-search', function () {
+        searchedProduct = $(this).val();
+
+        $("searchedProduct li").slice(1).remove();
+
+        $.ajax({
+            type: "GET",
+            url: "/Home/Search?searchedProduct=" + searchedProduct,
+            success: function (res) {
+                $("#searchedProduct").append(res);
+            }
+
+
+
+
+
+        })
+
+
+
+
+
+    })
+
+
+
     var skip = 4;
 
-    //$(document).on('click', '#LoadMore', function () {
-    //    $.ajax({
-    //        type: "GET",
-    //        url: "/Products/Load?skip=" + skip,
-    //        success: function (res) {
-    //            $("#productRow").append(res);
-    //            skip += 4;
-
-    //            var productsCount = $("#productsCount").val();
-
-    //            if (skip >= productsCount) {
-    //                $("#LoadMore").remove();
-    //            }
-
-    //        }
-    //    })
-    //})
-
-    $(document).on('scroll', function () {
+    $(document).on('click', '#LoadMore', function () {
         $.ajax({
             type: "GET",
             url: "/Products/Load?skip=" + skip,
@@ -35,6 +45,23 @@ $(document).ready(function () {
             }
         })
     })
+
+    //$(document).on('scroll', function () {
+    //    $.ajax({
+    //        type: "GET",
+    //        url: "/Products/Load?skip=" + skip,
+    //        success: function (res) {
+    //            $("#productRow").append(res);
+    //            skip += 4;
+
+    //            var productsCount = $("#productsCount").val();
+
+    //            if (skip >= productsCount) {
+    //                $("#LoadMore").remove();
+    //            }
+    //        }
+    //    })
+    //})
 
     // HEADER
 
