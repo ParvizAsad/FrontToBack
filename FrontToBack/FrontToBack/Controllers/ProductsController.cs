@@ -23,9 +23,9 @@ namespace FrontToBack.Controllers
         {
             ViewBag.ProductCount = _productsCount;
 
-            var products =await  _dbContext.Products.Include(x=>x.Category).Take(4).ToListAsync();
+           // var products =await  _dbContext.Products.Include(x=>x.Category).Take(4).ToListAsync();
 
-            return View(products);
+            return View(/*products*/);
         }
 
 

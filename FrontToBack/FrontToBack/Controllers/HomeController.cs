@@ -20,36 +20,36 @@ namespace FrontToBack.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             HttpContext.Session.SetString("session", "P320");
 
             Response.Cookies.Append("cookie", "Hello");
             Response.Cookies.Append("cookie", "Hello", new CookieOptions { Expires = System.DateTimeOffset.Now.AddHours(1) }); ;
 
-            var sliderImages =  _dbContext.SliderImages.ToList();
-            var slider = _dbContext.Sliders.SingleOrDefault();
-            var categorys=_dbContext.Categorys.ToList();
-         var products=_dbContext.Products.Include(x=>x.Category).ToList();
-            var abouts = _dbContext.Abouts.SingleOrDefault();
-            var aboutImages = _dbContext.AboutImages.SingleOrDefault();
-            var aboutLists = _dbContext.AboutLists.ToList();
-            var expertsTitles = _dbContext.ExpertsTitles.SingleOrDefault();
-            var experts = _dbContext.Experts.ToList();
-            var subscribes = _dbContext.Subscribes.SingleOrDefault();
-            var blogTitles = _dbContext.BlogTitles.SingleOrDefault();
-            var blogContent = _dbContext.BlogContents.ToList();
-            var say = _dbContext.Says.ToList();
-            var instagrams = _dbContext.Instagramss.ToList();
+            var sliderImages = await _dbContext.SliderImages.ToListAsync();
+            var slider = await _dbContext.Sliders.SingleOrDefaultAsync();
+            var categorys= await _dbContext.Categorys.ToListAsync();
+        // var products= await _dbContext.Products.Include(x=>x.Category).ToListAsync();
+            var abouts = await _dbContext.Abouts.SingleOrDefaultAsync();
+            var aboutImages = await _dbContext.AboutImages.SingleOrDefaultAsync();
+            var aboutLists = await _dbContext.AboutLists.ToListAsync();
+            var expertsTitles = await _dbContext.ExpertsTitles.SingleOrDefaultAsync();
+            var experts = await _dbContext.Experts.ToListAsync();
+            var subscribes = await _dbContext.Subscribes.SingleOrDefaultAsync();
+            var blogTitles = await _dbContext.BlogTitles.SingleOrDefaultAsync();
+            var blogContent = await _dbContext.BlogContents.ToListAsync();
+            var say = await _dbContext.Says.ToListAsync();
+            var instagrams = await _dbContext.Instagramss.ToListAsync();
 
 
 
             return View(new HomeViewModel
             {
-                SliderImages= sliderImages,
-                Slider = slider,
-                Categorys=categorys,    
-            Products=products,
+                SliderImages=  sliderImages,
+                Slider =  slider,
+                Categorys=  categorys,    
+           // Products=products,
                 Abouts= abouts,
                 AboutLists= aboutLists, 
                 AboutImages= aboutImages,

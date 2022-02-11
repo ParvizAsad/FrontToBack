@@ -4,7 +4,7 @@ $(document).ready(function () {
     $(document).on('keyup', '#input-search', function () {
         searchedProduct = $(this).val();
 
-        $("searchedProduct li").slice(1).remove();
+        $("#searchedProduct li").slice(1).remove();
 
         $.ajax({
             type: "GET",
@@ -12,20 +12,8 @@ $(document).ready(function () {
             success: function (res) {
                 $("#searchedProduct").append(res);
             }
-
-
-
-
-
         })
-
-
-
-
-
     })
-
-
 
     var skip = 4;
 
@@ -46,22 +34,22 @@ $(document).ready(function () {
         })
     })
 
-    //$(document).on('scroll', function () {
-    //    $.ajax({
-    //        type: "GET",
-    //        url: "/Products/Load?skip=" + skip,
-    //        success: function (res) {
-    //            $("#productRow").append(res);
-    //            skip += 4;
+    $(document).on('scroll', function () {
+        $.ajax({
+            type: "get",
+            url: "/products/load?skip=" + skip,
+            success: function (res) {
+                $("#productrow").append(res);
+                skip += 4;
 
-    //            var productsCount = $("#productsCount").val();
+                var productscount = $("#productscount").val();
 
-    //            if (skip >= productsCount) {
-    //                $("#LoadMore").remove();
-    //            }
-    //        }
-    //    })
-    //})
+                if (skip >= productscount) {
+                    $("#loadmore").remove();
+                }
+            }
+        })
+    })
 
     // HEADER
 

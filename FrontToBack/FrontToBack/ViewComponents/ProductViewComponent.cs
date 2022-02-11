@@ -16,9 +16,9 @@ namespace FrontToBack.ViewComponents
         }
 
 
-        public IViewComponentResult InvokeAsync(int take = 8)
+        public async Task<IViewComponentResult> InvokeAsync(int take = 8)
         {
-            var products =  _dbContext.Products.Include(x=>x.Category).Take(take).ToListAsync();
+            var products =await  _dbContext.Products.Include(x=>x.Category).Take(take).ToListAsync();
 
             return View(products);
         }

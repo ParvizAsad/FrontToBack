@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "hNURV6HN7ICgKvGwOGkJYnMkOSzOhTl5NhnznwO362RNsxxYNfCJKmkXXyMDvPwV/5+xfEChpg9aODeSbvF0VQ==",
+  "dgSpecHash": "w+ibIbsjpIoPckznZ+4XAgcNx7K9dqrDbUUfuNFuB5GXvHqTeomrjW1zsgzLYH8XUpQcUiaWDPocRKVEigGxaw==",
   "success": true,
-  "projectFilePath": "D:\\P320\\4. ASP .NET\\2. MVC\\3.03022022\\FrontToBack\\FrontToBack\\FrontToBack\\FrontToBack.csproj",
+  "projectFilePath": "D:\\P320\\4. ASP .NET\\2. MVC\\3. 03022022 FrontToBack\\FrontToBack\\FrontToBack\\FrontToBack\\FrontToBack.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",

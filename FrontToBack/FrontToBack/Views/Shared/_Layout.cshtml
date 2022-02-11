@@ -18,9 +18,9 @@
 <body>
 
     <!-- HEADER START -->
-@*@Component.InvokeAsync("Header")*@
+@await Component.InvokeAsync("Header")
 
-    <header>
+ @*   <header>
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -289,7 +289,7 @@
             </div>
         </div>
 
-    </header>
+    </header>*@
 
     <!-- HEADER END -->
 
@@ -304,8 +304,9 @@
     <!-- MAIN END -->
 
     <!-- FOOTER START -->
+  @await Component.InvokeAsync("Footer")
 
-    <footer>
+    @*<footer>
         <div class="container">
             <div class="row py-5">
                 <div class="col-md-6 col-lg-3">
@@ -376,7 +377,7 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer>*@
 
     <!-- FOOTER END -->
 
