@@ -1,33 +1,54 @@
-﻿
+﻿@model List<BasketViewModel>
 @{
     ViewData["Title"] = "Basket";
 }
 
+
+@{
+    double totalPrice = 0;
+    foreach (var item in Model)
+    {
+        totalPrice += item.Price * item.Count;
+    }
+}
+
 <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Count</th>
-      <th scope="col">Price</th>
-      <th scope="col">Image</th>
-      <th scope="col">Operation</th>
-    </tr>
-  </thead>
-  <tbody>
-    @*  @foreach (var item in )
-     {*@
-         
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>Otto</td>
-      <td>Otto</td>
-      <td> -| + |  <i class="fa-solid fa-xmark"></i></td>
-    
-    </tr>
-    @*}*@
-    
-  </tbody>
+    <thead>
+        <tr>
+            <th scope="col">Process №</th>
+            <th scope="col">Name</th>
+            <th scope="col">Count</th>
+            <th scope="col">Price</th>
+            <th scope="col">TotalPrice</th>
+            <th scope="col">Image</th>
+            <th scope="col">Operation</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            var productTotalPrice = @item.Count * @item.Price;
+
+            <tr>
+                <th scope="row">@item.ID</th>
+                <td>@item.Name</td>
+                <td>@item.Count</td>
+                <td>@item.Price</td>
+                <td>@productTotalPrice</td>
+                <td style="vertical-align:middle !important;">
+                    <img style="width: 50px; height: 50px;" src="~/img/@item.Image" class="img-fluid" alt="">
+                </td>
+                <td>
+                    <button id="addCount">+</button>
+                    <button id="minusCount">-</button>
+                    <button id="closeProduct">X</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+
 </table>
+
+
+<p>Total Price: @totalPrice</p>

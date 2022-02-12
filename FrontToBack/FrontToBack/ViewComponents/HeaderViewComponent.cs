@@ -21,13 +21,24 @@ namespace P320FrontToBack.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var count = 0;
+            double totalPrice = 0;
             var basket = Request.Cookies["basket"];
             if (!string.IsNullOrEmpty(basket))
             {
                 var products = JsonConvert.DeserializeObject<List<BasketViewModel>>(basket);
                 count = products.Count;
+                foreach (var item in products)
+                {
+                    totalPrice += item.Price * item.Count;
+                }
+
             }
             ViewBag.BasketCount = count;
+            ViewBag.TotalPrice = totalPrice;
+
+
+
+
 
             var bio = await _dbContext.Bios.SingleOrDefaultAsync();
 
