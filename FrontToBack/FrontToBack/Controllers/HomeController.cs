@@ -3,6 +3,7 @@ using FrontToBack.Models;
 using FrontToBack.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -155,7 +156,6 @@ namespace FrontToBack.Controllers
 
                 };
                 basketViewModels.Add(existBasketViewModel);
-
             }
             else
             {
@@ -173,5 +173,63 @@ namespace FrontToBack.Controllers
             return RedirectToAction(nameof(Index));
           
         }
+
+
+
+        public IActionResult MinusCount(int? id)
+        {
+            var basket = Request.Cookies["basket"];
+           
+            if (id == null)
+                return BadRequest();
+            
+            if (string.IsNullOrEmpty(basket))
+                return BadRequest();
+            
+            var products = JsonConvert.DeserializeObject<List<BasketViewModel>>(basket);
+            
+            foreach (var item in products)
+            {
+                if (item.ID == id)
+                {
+                    item.Count--;
+                    if (item.Count == 0)
+                        products = products.Where(x => x.ID != id).ToList();
+                }
+            }
+            
+            Response.Cookies.Append("basket", JsonConvert.SerializeObject(products));
+            // return View("Basket");
+            return RedirectToAction(nameof(Basket));
+        }
+
+        public IActionResult PlusCount(int? id)
+        {
+            var basket = Request.Cookies["basket"];
+           
+            if (id == null)
+                return NotFound();
+           
+           
+            if (string.IsNullOrEmpty(basket))
+                return NotFound();
+            
+            var products = JsonConvert.DeserializeObject<List<BasketViewModel>>(basket);
+           
+            foreach (var item in products)
+            {
+                if (item.ID == id)
+                {
+                    item.Count++;
+                }
+            }
+            
+            Response.Cookies.Append("basket", JsonConvert.SerializeObject(products));
+            //Page.Response.Redirect(Page.Request.Url.ToString(), False);
+            return RedirectToAction(nameof(Basket));
+
+        }
+
+
     }
 }

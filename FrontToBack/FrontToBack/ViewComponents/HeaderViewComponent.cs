@@ -31,14 +31,11 @@ namespace P320FrontToBack.ViewComponents
                 {
                     totalPrice += item.Price * item.Count;
                 }
-
             }
             ViewBag.BasketCount = count;
+
+
             ViewBag.TotalPrice = totalPrice;
-
-
-
-
 
             var bio = await _dbContext.Bios.SingleOrDefaultAsync();
 

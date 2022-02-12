@@ -1,5 +1,14 @@
 $(document).ready(function () {
 
+    
+
+
+
+
+
+
+
+
     var searchedProduct;
     $(document).on('keyup', '#input-search', function () {
         searchedProduct = $(this).val();

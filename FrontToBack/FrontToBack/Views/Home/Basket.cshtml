@@ -10,6 +10,7 @@
     {
         totalPrice += item.Price * item.Count;
     }
+    ViewBag.TotalPrice = totalPrice;
 }
 
 <table class="table">
@@ -33,16 +34,24 @@
             <tr>
                 <th scope="row">@item.ID</th>
                 <td>@item.Name</td>
-                <td>@item.Count</td>
+                <td>
+                  <a asp-controller="Home" asp-action="MinusCount" asp-route-id="@item.ID">
+                                -
+                            </a>
+                    @item.Count
+                    <a asp-controller="Home" asp-action="PlusCount" asp-route-id="@item.ID">
+                                +
+                            </a>
+                </td>
                 <td>@item.Price</td>
                 <td>@productTotalPrice</td>
                 <td style="vertical-align:middle !important;">
                     <img style="width: 50px; height: 50px;" src="~/img/@item.Image" class="img-fluid" alt="">
                 </td>
                 <td>
-                    <button id="addCount">+</button>
-                    <button id="minusCount">-</button>
-                    <button id="closeProduct">X</button>
+                      <a asp-controller="Home" asp-action="PlusCount" asp-route-id="@item.ID">
+                          X
+                         </a>
                 </td>
             </tr>
         }
@@ -51,4 +60,4 @@
 </table>
 
 
-<p>Total Price: @totalPrice</p>
+<p class="d-flex justify-content-centre">Total Price: @ViewBag.TotalPrice</p>
