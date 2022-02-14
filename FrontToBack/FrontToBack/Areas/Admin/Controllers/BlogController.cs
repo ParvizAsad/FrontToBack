@@ -50,9 +50,9 @@ namespace FrontToBack.Areas.Admin.Controllers
             {
                 return View();
             }
-            var isExistCategory = await _dbContext.BlogContents.AnyAsync(x => x.Title.ToLower() == blogContents.Title.ToLower());
+            var isExistBlog = await _dbContext.BlogContents.AnyAsync(x => x.Title.ToLower() == blogContents.Title.ToLower());
 
-            if (isExistCategory)
+            if (isExistBlog)
             {
                 ModelState.AddModelError("Title", "Bu title-da blog mövcuddur!");
                 return View();
@@ -63,5 +63,56 @@ namespace FrontToBack.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var blog = await _dbContext.BlogContents.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (blog == null)
+                return NotFound();
+
+            return View(blog);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(BlogContent blogContent)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var existBlog = await _dbContext.BlogContents.FindAsync(blogContent.Id);
+            if (existBlog == null)
+                return NotFound();
+
+            bool isSameTitle = await _dbContext.BlogContents.AnyAsync(x => x.Title.ToLower().Trim() == blogContent.Title.ToLower().Trim());
+            if (isSameTitle)
+            {
+                ModelState.AddModelError("Title", "Eyni adda blog movcuddur");
+                return View();
+            }
+
+            existBlog.Title = blogContent.Title;
+
+            await _dbContext.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            BlogContent blogContents = await _dbContext.BlogContents.FindAsync(id);
+            if (blogContents == null)
+                return Json(new { status = 404 });
+
+            _dbContext.BlogContents.Remove(blogContents);
+            _dbContext.SaveChanges();
+            return Json(new { status = 200 });
+        }
+
+
     }
 }

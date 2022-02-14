@@ -67,5 +67,54 @@ namespace FrontToBack.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var category = await _dbContext.Categorys.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (category == null)
+                return NotFound();
+
+            return View(category);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Category category)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var existCategory = await _dbContext.Categorys.FindAsync(category.Id);
+            if (existCategory == null)
+                return NotFound();
+
+            bool isSameName = await _dbContext.Categorys.AnyAsync(x => x.Name.ToLower().Trim() == category.Name.ToLower().Trim());
+            if (isSameName)
+            {
+                ModelState.AddModelError("Name", "Eyni adda category movcuddur");
+                return View();
+            }
+
+            existCategory.Name = category.Name;
+
+            await _dbContext.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            Category categorys = await _dbContext.Categorys.FindAsync(id);
+            if (categorys == null)
+                return Json(new { status = 404 });
+
+            _dbContext.Categorys.Remove(categorys);
+            _dbContext.SaveChanges();
+            return Json(new { status = 200 });
+        }
+
     }
 }
