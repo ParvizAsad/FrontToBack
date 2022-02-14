@@ -1,0 +1,25 @@
+﻿@model BlogContent
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">@Model.Title</h4>
+                <p>
+                    @Html.Raw(Model.Content)
+                </p>
+                <p>
+                    @Html.Raw(Model.Image)
+                </p>
+                <p>
+                    @Html.Raw(Model.date)
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+

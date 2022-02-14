@@ -230,6 +230,29 @@ namespace FrontToBack.Controllers
 
         }
 
+        public IActionResult DeleteProduct(int? id)
+        {
+            var basket = Request.Cookies["basket"];
 
+            if (id == null)
+                return BadRequest();
+
+            if (string.IsNullOrEmpty(basket))
+                return BadRequest();
+
+            var products = JsonConvert.DeserializeObject<List<BasketViewModel>>(basket);
+
+            foreach (var item in products)
+            {
+                if (item.ID == id)
+                {
+                   products = products.Where(x => x.ID != id).ToList();
+                }
+            }
+
+            Response.Cookies.Append("basket", JsonConvert.SerializeObject(products));
+            // return View("Basket");
+            return RedirectToAction(nameof(Basket));
+        }
     }
 }
