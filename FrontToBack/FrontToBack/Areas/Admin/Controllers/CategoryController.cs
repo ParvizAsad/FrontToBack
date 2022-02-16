@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace FrontToBack.Areas.Admin.Controllers
 {
@@ -12,17 +13,17 @@ namespace FrontToBack.Areas.Admin.Controllers
     {
         private readonly AppDbContext _dbContext;
 
-
         public CategoryController(AppDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page =1)
         {
-            var categories = await _dbContext.Categorys.ToListAsync();
-
+            int take = 10;
+            ViewBag.totalpage = Math.Ceiling((decimal)_dbContext.Products.Count() / take);
+            ViewBag.currentpage = page;
+            var categories = await _dbContext.Categorys.Skip((page - 1) * take).Take(take).ToListAsync();
             return View(categories);
         }
 
@@ -67,8 +68,7 @@ namespace FrontToBack.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Update(int id)
         {
             var category = await _dbContext.Categorys.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -80,7 +80,7 @@ namespace FrontToBack.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Category category)
+        public async Task<IActionResult> Update(Category category)
         {
             if (!ModelState.IsValid)
             {

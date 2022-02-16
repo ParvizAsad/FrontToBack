@@ -1,25 +1,22 @@
 ﻿@model BlogContent
+
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="row">
-    <div class="col-md-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">@Model.Title</h4>
-                <p>
-                    @Html.Raw(Model.Content)
-                </p>
-                <p>
-                    @Html.Raw(Model.Image)
-                </p>
-                <p>
-                    @Html.Raw(Model.date)
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
 
+<div class="card mb-12" >
+  <div class="row g-0">
+    <div class="col-md-5">
+      <img src="~/img/@Model.Image" class="img-fluid rounded-start" alt="Blog image">
+    </div>
+    <div class="col-md-7">
+      <div class="card-body">
+        <h5 class="card-title">@Model.Title</h5>
+        <p class="card-text">@Model.Content</p>
+        <p class="card-text"><small class="text-muted">@Model.date.ToShortDateString()</small></p>
+      </div>
+    </div>
+  </div>
+</div>

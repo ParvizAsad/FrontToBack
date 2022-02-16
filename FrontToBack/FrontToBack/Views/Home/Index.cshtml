@@ -17,9 +17,6 @@
                {
                     <div> <img src="~/img/@item.Name" alt=""> </div>
                }
-
-               
-                
             </div>
             <div class="container context pl-lg-5 ml-lg-3">
                 <div class="row">
@@ -62,7 +59,7 @@
                              <li><a href="" data-id="all">All</a></li>
                             @foreach (var item in homeViewModel.Categorys)
                            {
-                                <li><a href="" data-id="@item.Name.ToLower()">@item.Name</a></li>
+                                <li><a data-id="@item.Name.ToLower()">@item.Name</a></li>
                            }
                         </ul>
                         <ul class="list-unstyled">

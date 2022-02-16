@@ -34,23 +34,29 @@
 
             <tr>
                 <th scope="row">@item.ID</th>
+                
                 <td>@item.Name</td>
+                
                 <td>
-                  <a asp-controller="Home" asp-action="MinusCount" asp-route-id="@item.ID">
+                  <a class="btn btn-warning" asp-controller="Home" asp-action="MinusCount" asp-route-id="@item.ID">
                                 -
                             </a>
                     @item.Count
-                    <a asp-controller="Home" asp-action="PlusCount" asp-route-id="@item.ID">
+                    <a class="btn btn-success"  asp-controller="Home" asp-action="PlusCount" asp-route-id="@item.ID">
                                 +
                             </a>
                 </td>
+                
                 <td>@item.Price</td>
+                
                 <td>@productTotalPrice</td>
+                
                 <td style="vertical-align:middle !important;">
                     <img style="width: 50px; height: 50px;" src="~/img/@item.Image" class="img-fluid" alt="">
                 </td>
+
                 <td>
-                      <a asp-controller="Home" asp-action="DeleteProduct" asp-route-id="@item.ID">
+                      <a class="btn btn-danger delete-item" asp-controller="Home" asp-action="DeleteProduct" asp-route-id="@item.ID">
                           X
                          </a>
                 </td>
@@ -62,3 +68,45 @@
 
 
 <p class="d-flex justify-content-centre">Total Price: @ViewBag.TotalPrice</p>
+
+@section Scripts{ 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script>
+        $(document).ready(function () {
+            $(".delete-item").click(function (ev) {
+                ev.preventDefault();
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let link = $(this).attr("href")
+                        fetch(link).then(response => response.json()).then(data => {
+                            //  location.reload(true);
+                            if (data.status == 200) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your file has been deleted.',
+                                    'success'
+                                )
+                            }
+                            else {
+                                Swal.fire(
+                                    'Error!',
+                                    'Your file not Found.',
+                                    'Failed'
+                                )
+                            }
+                        })
+                    }
+                })
+            })
+        })
+    </script>
+}

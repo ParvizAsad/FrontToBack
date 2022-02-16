@@ -9,10 +9,7 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Basic Table</h4>
-                <p class="card-description">
-                    Add class <code>.table</code>
-                </p>
+                <h4 class="card-title">Category List</h4>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -29,9 +26,9 @@
                                     <td>@item.Name</td>
                                     <td>@item.Description</td>
                                     <td>
-                                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Update</a>
+                                        <a class="btn btn-warning" asp-action="Update" asp-route-id="@item.Id">Update</a>
                                         <a class="btn btn-success" asp-action="Details" asp-route-id="@item.Id">Detail</a>
-                                        <a class="btn btn-danger delete-item"  asp-action="Delete">Delete</a>
+                                        <a class="btn btn-danger delete-item"  asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                                     </td>
                                 </tr>
                            }
@@ -43,6 +40,50 @@
         </div>
     </div>
 </div>
+
+@*pagination*@
+<div class="row justify-content-center">
+        <nav aria-label="...">
+            <ul class="pagination">
+                @if (ViewBag.CurrentPage == 1)
+                {
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item ">
+                        <a class="page-link" asp-action="Index" asp-route-page="@(ViewBag.CurrentPage-1)" tabindex="-1">Previous</a>
+                    </li>
+                }
+
+                @for (int i = 1; i <= ViewBag.TotalPage; i++)
+                {
+                    <li class="page-item @(ViewBag.CurrentPage == i ? "active":"")" style="@(ViewBag.CurrentPage == i?"pointer-events:none":"")">
+                        <a class="page-link" asp-action="Index" asp-route-page="@i">
+                            @i<span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                }
+
+                @if (ViewBag.CurrentPage == ViewBag.TotalPage)
+                {
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                }
+                else
+                {
+
+                    <li class="page-item">
+                        <a class="page-link" asp-action="Index"  asp-route-page="(@ViewBag.CurrentPage+1)">Next</a>
+                    </li>
+                }
+
+            </ul>
+        </nav>
+    </div>
 
 @section Scripts{ 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -64,7 +105,6 @@
                         let link = $(this).attr("href")
                         fetch(link).then(response => response.json()).then(data => {
                             if (data.status == 200) {
-                                 location.reload(true);
                                 Swal.fire(
                                     'Deleted!',
                                     'Your file has been deleted.',
@@ -79,7 +119,6 @@
                                 )
                             }
                         })
-                     
                     }
                 })
             })

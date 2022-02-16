@@ -1,0 +1,38 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    <h2>Edit Product</h2>
+    <form method="post">
+
+         <div class="form-group">
+            <label asp-for="@Model.Category">@Model.Category</label>
+            <input class="form-control" placeholder="@Model.Category" asp-for="@Model.Category" />
+            <span asp-validation-for="@Model.Category" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Name">@Model.Name</label>
+            <input class="form-control" placeholder="Name" asp-for="@Model.Name">
+            <span asp-validation-for="@Model.Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Image">@Model.Image</label>
+            <input class="form-control" placeholder="@Model.Image" asp-for="@Model.Image">
+            <span asp-validation-for="@Model.Image" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Price">@Model.Price</label>
+            <input class="form-control" placeholder="@Model.Price" asp-for="@Model.Price">
+            <span asp-validation-for="@Model.Price" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+

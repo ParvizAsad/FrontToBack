@@ -2,6 +2,8 @@
 using FrontToBack.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FrontToBack.Areas.Admin.Controllers
@@ -16,10 +18,12 @@ namespace FrontToBack.Areas.Admin.Controllers
             _dbContext = dbContext;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var blogs = await _dbContext.BlogContents.ToListAsync();
-
+            int take = 10;
+            ViewBag.totalpage = Math.Ceiling((decimal)_dbContext.Products.Count() / take);
+            ViewBag.currentpage = page;
+            var blogs = await _dbContext.BlogContents.Skip((page - 1) * take).Take(take).ToListAsync();
             return View(blogs);
         }
 
@@ -65,7 +69,7 @@ namespace FrontToBack.Areas.Admin.Controllers
         }
 
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Update(int id)
         {
             var blog = await _dbContext.BlogContents.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -77,7 +81,7 @@ namespace FrontToBack.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(BlogContent blogContent)
+        public async Task<IActionResult> Update(BlogContent blogContent)
         {
             if (!ModelState.IsValid)
             {
