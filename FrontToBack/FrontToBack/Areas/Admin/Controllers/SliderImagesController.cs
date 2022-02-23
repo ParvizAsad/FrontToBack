@@ -69,7 +69,14 @@ namespace FrontToBack.Areas.Admin.Controllers
             if (!ModelState.IsValid)
                 return View();
 
-           
+            var maxCount = 5;
+            var imageCount = _dbContext.SliderImages.Count();
+            var downloadImageCount = maxCount - imageCount;
+            if (sliderImage.Photos.Count() >= downloadImageCount)
+            {
+                ModelState.AddModelError("Photos", $"Max {downloadImageCount} shekil yükləyə bilərsiniz.");
+                return View();
+            }
 
             foreach (var photo in sliderImage.Photos)
             {
