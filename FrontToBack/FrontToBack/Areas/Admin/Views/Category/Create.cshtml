@@ -19,7 +19,7 @@
 
                     <div class="form-group">
                         <label asp-for="Description" >Description</label>
-                        <input  class="form-control"  placeholder="Description" asp-for="Description">
+                         <textarea class="form-control" placeholder="Description" asp-for="Description" rows="4"></textarea>
                           <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
@@ -30,3 +30,7 @@
     </div>
 </div>
 
+@section Scripts{
+    <partial name="_ValidationPartial" />
+    <partial name="_EditorPartial" />
+}

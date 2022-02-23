@@ -1,0 +1,77 @@
+﻿@model Expert
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Create Slider Image</h4>
+            <form class="forms-sample" method="post" enctype="multipart/form-data">
+               
+                <div class="form-group">
+                    <label asp-for="Photo">Photo</label>
+                    <input class="form-control" placeholder="Photo" asp-for="Photo" accept="image/*">
+                    <span asp-validation-for="Photo" class="text-danger"></span>
+                </div>
+              
+                <div class="form-group">
+                    <label asp-for="Name">Name</label>
+                    <input class="form-control" placeholder="Name" asp-for="Name" >
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Job">Job</label>
+                    <input class="form-control" placeholder="Job" asp-for="Job" >
+                    <span asp-validation-for="Job" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                <a class="btn btn-light" asp-action="Index">Cancel</a>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Create Slider Image</h4>
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
+
+                    <div class="form-group">
+                    <label asp-for="Photo">Photo</label>
+                    <input class="form-control" placeholder="Photo" asp-for="Photo" accept="image/*">
+                    <span asp-validation-for="Photo" class="text-danger"></span>
+                </div>
+              
+                <div class="form-group">
+                    <label asp-for="Name">Name</label>
+                    <input class="form-control" placeholder="Name" asp-for="Name" >
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Job">Job</label>
+                    <input class="form-control" placeholder="Job" asp-for="Job" >
+                    <span asp-validation-for="Job" class="text-danger"></span>
+                </div>
+               
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <a asp-action="Index" class="btn btn-light">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+@section Scripts{
+    <partial name="_ValidationPartial" />
+}
+

@@ -1,8 +1,10 @@
 ﻿using FrontToBack.DataAccessLayer;
 using FrontToBack.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,10 +14,12 @@ namespace FrontToBack.Areas.Admin.Controllers
     public class BlogController : Controller
     {
         private readonly AppDbContext _dbContext;
+        private readonly IWebHostEnvironment _environment;
 
-        public BlogController(AppDbContext dbContext)
+        public BlogController(AppDbContext dbContext, IWebHostEnvironment environment)
         {
             _dbContext = dbContext;
+            _environment = environment;
         }
 
         public async Task<IActionResult> Index(int page = 1)
@@ -62,6 +66,26 @@ namespace FrontToBack.Areas.Admin.Controllers
                 return View();
             }
 
+            if (!blogContents.Photo.ContentType.Contains("image"))
+            {
+                ModelState.AddModelError("Photo", "Yükləməyiniz şəkil olmalıdır");
+                return View();
+            }
+
+            if (blogContents.Photo.Length > 1024 * 1000)
+            {
+                ModelState.AddModelError("Photo", "Yükləməyiniz şəkil 1Mb-dan az olmalıdır");
+                return View();
+            }
+
+            var webRootPath = _environment.WebRootPath;
+            var fileName = $"{Guid.NewGuid()}-{blogContents.Photo.FileName}";
+            var path = Path.Combine(webRootPath, "img", fileName);
+
+            var fileStream = new FileStream(path, FileMode.CreateNew);
+            await blogContents.Photo.CopyToAsync(fileStream);
+
+            blogContents.Image = fileName;
             await _dbContext.BlogContents.AddAsync(blogContents);
             await _dbContext.SaveChangesAsync();
 
@@ -69,8 +93,11 @@ namespace FrontToBack.Areas.Admin.Controllers
         }
 
 
-        public async Task<IActionResult> Update(int id)
+        public async Task<IActionResult> Update(int? id)
         {
+            if (id == null)
+                return NotFound();
+
             var blog = await _dbContext.BlogContents.FirstOrDefaultAsync(x => x.Id == id);
 
             if (blog == null)
@@ -81,8 +108,14 @@ namespace FrontToBack.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(BlogContent blogContent)
+        public async Task<IActionResult> Update(int? id, BlogContent blogContent)
         {
+            if (id == null)
+                return NotFound();
+
+            if (id != blogContent.Id)
+                return BadRequest();
+
             if (!ModelState.IsValid)
             {
                 return View();
@@ -92,31 +125,52 @@ namespace FrontToBack.Areas.Admin.Controllers
             if (existBlog == null)
                 return NotFound();
 
-            bool isSameTitle = await _dbContext.BlogContents.AnyAsync(x => x.Title.ToLower().Trim() == blogContent.Title.ToLower().Trim());
-            if (isSameTitle)
+            bool isExist = await _dbContext.BlogContents.AnyAsync(x => x.Title.ToLower().Trim() == blogContent.Title.ToLower().Trim());
+            if (isExist)
             {
                 ModelState.AddModelError("Title", "Eyni adda blog movcuddur");
                 return View();
             }
 
             existBlog.Title = blogContent.Title;
+            existBlog.date = blogContent.date;
+            existBlog.Content = blogContent.Content;
+            existBlog.Image=blogContent.Image;
 
             await _dbContext.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Delete(int id)
-        {
-            BlogContent blogContents = await _dbContext.BlogContents.FindAsync(id);
-            if (blogContents == null)
-                return Json(new { status = 404 });
 
-            _dbContext.BlogContents.Remove(blogContents);
-            _dbContext.SaveChanges();
-            return Json(new { status = 200 });
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var blogContents = await _dbContext.BlogContents.FindAsync(id);
+            if (blogContents == null)
+                return NotFound();
+            
+            return View(blogContents);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Delete")]
+        public async Task<IActionResult> DeleteBlog(int? id)
+        {
+            if (id == null)
+                return NotFound();
 
+            var blogContents = await _dbContext.BlogContents.FindAsync(id);
+            if (blogContents == null)
+                return NotFound();
+
+            _dbContext.BlogContents.Remove(blogContents);
+            await _dbContext.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

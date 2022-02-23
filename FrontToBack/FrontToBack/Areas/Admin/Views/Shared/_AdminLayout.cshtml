@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="~/Admin/css/vertical-layout-light/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="~/Admin/images/favicon.png" />
+@await RenderSectionAsync("Styles",false)
 </head>
 <body>
     <div class="container-scroller">
@@ -384,6 +385,8 @@
                             <div class="badge badge-danger">new</div>
                         </a>
                     </li>
+
+                    @*Category*@
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                             <i class="typcn typcn-document-text menu-icon"></i>
@@ -398,6 +401,7 @@
                         </div>
                     </li>
 
+                    @*Product*@
                      <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
                             <i class="typcn typcn-chart-pie-outline menu-icon"></i>
@@ -411,7 +415,8 @@
                             </ul>
                         </div>
                     </li>
-
+                    
+                    @*Blog*@
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
                             <i class="typcn typcn-chart-pie-outline menu-icon"></i>
@@ -426,31 +431,51 @@
                         </div>
                     </li>
 
+                    @*Slider Image*@
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
-                            <i class="typcn typcn-film menu-icon"></i>
-                            <span class="menu-title">Form elements</span>
+                        <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
+                            <i class="typcn typcn-chart-pie-outline menu-icon"></i>
+                            <span class="menu-title">Slider Image</span>
                             <i class="menu-arrow"></i>
                         </a>
-                        <div class="collapse" id="form-elements">
+                        <div class="collapse" id="charts">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">Basic Elements</a></li>
+                                <li class="nav-item"> <a class="nav-link" asp-controller="SliderImages" asp-action="Index">SliderImages List</a></li>
+                                <li class="nav-item"> <a class="nav-link" asp-controller="SliderImages" asp-action="Create">Create</a></li>
                             </ul>
                         </div>
                     </li>
 
+             @*Expert Title*@
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
+                            <i class="typcn typcn-film menu-icon"></i>
+                            <span class="menu-title">Experts Title</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="form-elements">
+                            <ul class="nav flex-column sub-menu">
+                                  <li class="nav-item"> <a class="nav-link" asp-controller="ExpertsTitle" asp-action="Index">Experts Title</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    @*Experts*@
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
                             <i class="typcn typcn-th-small-outline menu-icon"></i>
-                            <span class="menu-title">Tables</span>
+                            <span class="menu-title">Experts</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="tables">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="pages/tables/basic-table.html">Basic table</a></li>
+                               <li class="nav-item"> <a class="nav-link" asp-controller="Experts" asp-action="Index">Experts List</a></li>
+
                             </ul>
                         </div>
                     </li>
+
+
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
                             <i class="typcn typcn-compass menu-icon"></i>
@@ -463,6 +488,8 @@
                             </ul>
                         </div>
                     </li>
+
+
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
                             <i class="typcn typcn-user-add-outline menu-icon"></i>
@@ -476,6 +503,8 @@
                             </ul>
                         </div>
                     </li>
+
+
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#error" aria-expanded="false" aria-controls="error">
                             <i class="typcn typcn-globe-outline menu-icon"></i>
@@ -489,6 +518,8 @@
                             </ul>
                         </div>
                     </li>
+
+
                     <li class="nav-item">
                         <a class="nav-link" href="https://bootstrapdash.com/demo/polluxui-free/docs/documentation.html">
                             <i class="typcn typcn-mortar-board menu-icon"></i>
@@ -538,9 +569,7 @@
     <!-- Custom js for this page-->
     <script src="~/Admin/js/dashboard.js"></script>
     <!-- End custom js for this page-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js" integrity="sha512-o6XqxgrUsKmchwy9G5VRNWSSxTS4Urr4loO6/0hYdpWmFUfHqGzawGxeQGMDqYzxjY9sbktPbNlkIQJWagVZQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   @await RenderSectionAsync("Scripts",false)
 </body>
 
 </html>
-@RenderSection("Scripts",false)

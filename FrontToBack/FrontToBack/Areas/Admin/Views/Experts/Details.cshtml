@@ -1,0 +1,20 @@
+﻿@model Expert
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+               <img src="~/img/@Model.Image" />
+                  <h4 class="card-title">Name: @Model.Name</h4>
+                  <h4 class="card-title">Job: @Model.Job</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+

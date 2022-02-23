@@ -68,8 +68,11 @@ namespace FrontToBack.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Update(int id)
+        public async Task<IActionResult> Update(int? id)
         {
+            if (id == null)
+                return NotFound();
+
             var category = await _dbContext.Categorys.FirstOrDefaultAsync(x => x.Id == id);
 
             if (category == null)
@@ -80,41 +83,67 @@ namespace FrontToBack.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(Category category)
+        public async Task<IActionResult> Update(int? id, Category category)
         {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
+            if (id == null)
+                return NotFound();
 
-            var existCategory = await _dbContext.Categorys.FindAsync(category.Id);
+            if (id != category.Id)
+                return BadRequest();
+
+            if (!ModelState.IsValid)
+                return View();
+
+            var existCategory = await _dbContext.Categorys.FindAsync(id);
             if (existCategory == null)
                 return NotFound();
 
-            bool isSameName = await _dbContext.Categorys.AnyAsync(x => x.Name.ToLower().Trim() == category.Name.ToLower().Trim());
-            if (isSameName)
+            var isExist = await _dbContext.Categorys
+                .AnyAsync(x => x.Name.ToLower().Trim() == category.Name.ToLower().Trim() && x.Id!=id);
+            if (isExist)
             {
                 ModelState.AddModelError("Name", "Eyni adda category movcuddur");
                 return View();
             }
 
             existCategory.Name = category.Name;
+            existCategory.Description = category.Description;
 
             await _dbContext.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            Category categorys = await _dbContext.Categorys.FindAsync(id);
-            if (categorys == null)
-                return Json(new { status = 404 });
+            if (id == null)
+                return NotFound();
 
-            _dbContext.Categorys.Remove(categorys);
-            _dbContext.SaveChanges();
-            return Json(new { status = 200 });
+            var category = await _dbContext.Categorys.FindAsync(id);
+            if (category == null)
+                return NotFound();
+
+            return View(category);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Delete")]
+        public async Task<IActionResult> DeleteCategory(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var category = await _dbContext.Categorys.FindAsync(id);
+            if (category == null)
+                return NotFound();
+
+            _dbContext.Categorys.Remove(category);
+            await _dbContext.SaveChangesAsync();
+
+
+            return RedirectToAction(nameof(Index));
+
+        }
     }
 }

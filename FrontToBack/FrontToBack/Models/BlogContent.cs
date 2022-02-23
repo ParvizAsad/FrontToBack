@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FrontToBack.Models
 {
@@ -19,5 +21,9 @@ namespace FrontToBack.Models
 
         [Required(ErrorMessage = "Boş saxlanıla bilməz!")]
         public DateTime date { get; set; }
+
+        [NotMapped]
+        [Required(ErrorMessage = "Boş saxlanıla bilməz!")]
+        public IFormFile Photo { get; set; }
     }
 }
