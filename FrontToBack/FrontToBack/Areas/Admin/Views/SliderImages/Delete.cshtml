@@ -1,7 +1,7 @@
 ﻿@model SliderImage
 
-
 @{
+   
     ViewData["Title"] = "Delete";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
@@ -10,16 +10,16 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <img src="~/img/@Model.Name" /> 
+                <img src="~/img/@Model.Name" style="width: 150px; height: 150px;" />
                 <p class="text-danger">Are you sure to delets?</p>
             </div>
         </div>
     </div>
 </div>
 <div>
-    <form  class="forms-sample" method="post">
-                    <button type="submit" class="btn btn-danger mr-2">Submit</button>
+    <form class="forms-sample" method="post">
+        <button type="submit" class="btn btn-danger mr-2">Submit</button>
     </form>
- <button class="btn btn-light" asp-action="Index">Cancel</button>
+    <button class="btn btn-light" asp-action="Index">Cancel</button>
 </div>
 

@@ -1,7 +1,9 @@
 using FrontToBack.Areas.Admin.Data;
 using FrontToBack.DataAccessLayer;
+using FrontToBack.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,13 +35,31 @@ namespace FrontToBack
 
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlServer(connectonString);
+                options.UseSqlServer(connectonString, builder =>
+                {
+                    builder.MigrationsAssembly(nameof(FrontToBack));
+                });
             });
 
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+
+                options.Password.RequiredLength = 8;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireDigit = true;
+
+            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
             services.AddMvc().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             Constants.ImageFolderPath = Path.Combine(_environment.WebRootPath, "img");
-        
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -52,6 +72,8 @@ namespace FrontToBack
             app.UseRouting();
             app.UseStaticFiles();
             app.UseSession();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

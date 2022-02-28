@@ -19,13 +19,13 @@ namespace FrontToBack.Controllers
             _productsCount = _dbContext.Products.Count();
         }
 
-        public async Task<IActionResult> Index()
+        public  IActionResult Index()
         {
             ViewBag.ProductCount = _productsCount;
 
            // var products =await  _dbContext.Products.Include(x=>x.Category).Take(4).ToListAsync();
 
-            return View(/*products*/);
+            return View();
         }
 
 

@@ -30,8 +30,8 @@ namespace FrontToBack.Controllers
 
             var sliderImages = await _dbContext.SliderImages.ToListAsync();
             var slider = await _dbContext.Sliders.SingleOrDefaultAsync();
-            var categorys= await _dbContext.Categorys.ToListAsync();
-        // var products= await _dbContext.Products.Include(x=>x.Category).ToListAsync();
+            var categorys = await _dbContext.Categorys.ToListAsync();
+            // var products= await _dbContext.Products.Include(x=>x.Category).ToListAsync();
             var abouts = await _dbContext.Abouts.SingleOrDefaultAsync();
             var aboutImages = await _dbContext.AboutImages.SingleOrDefaultAsync();
             var aboutLists = await _dbContext.AboutLists.ToListAsync();
@@ -43,29 +43,26 @@ namespace FrontToBack.Controllers
             var say = await _dbContext.Says.ToListAsync();
             var instagrams = await _dbContext.Instagramss.ToListAsync();
 
-
-
             return View(new HomeViewModel
             {
-                SliderImages=  sliderImages,
-                Slider =  slider,
-                Categorys=  categorys,    
-           // Products=products,
-                Abouts= abouts,
-                AboutLists= aboutLists, 
-                AboutImages= aboutImages,
-                ExpertsTitles=expertsTitles,   
+                SliderImages = sliderImages,
+                Slider = slider,
+                Categorys = categorys,
+                // Products=products,
+                Abouts = abouts,
+                AboutLists = aboutLists,
+                AboutImages = aboutImages,
+                ExpertsTitles = expertsTitles,
                 Experts = experts,
-                Subscribes= subscribes,
-                BlogTitles= blogTitles,
-                BlogContents= blogContent,
-                Says= say,
-                Instagramss=instagrams
-                
+                Subscribes = subscribes,
+                BlogTitles = blogTitles,
+                BlogContents = blogContent,
+                Says = say,
+                Instagramss = instagrams
             });
         }
-    
-    public async Task<IActionResult> Search(string searchedProduct)
+
+        public async Task<IActionResult> Search(string searchedProduct)
         {
             if (string.IsNullOrEmpty(searchedProduct))
             {
@@ -74,18 +71,16 @@ namespace FrontToBack.Controllers
 
 
             var products = await _dbContext.Products
-                .Where(x=> x.Name.ToLower().Contains(searchedProduct.ToLower()))
+                .Where(x => x.Name.ToLower().Contains(searchedProduct.ToLower()))
                 .ToListAsync();
 
 
             //return Json(products);
-       
-        return PartialView("_SearchedProductPartial",products);
-        
-        
+
+            return PartialView("_SearchedProductPartial", products);
+
+
         }
-
-
         public async Task<IActionResult> Basket()
         {
 
@@ -95,13 +90,13 @@ namespace FrontToBack.Controllers
                 return Content("Empty");
             }
 
-            var basketViewModels= JsonConvert.DeserializeObject<List<BasketViewModel>>(basket); 
-         var newBasket=new List<BasketViewModel>();
+            var basketViewModels = JsonConvert.DeserializeObject<List<BasketViewModel>>(basket);
+            var newBasket = new List<BasketViewModel>();
             foreach (var basketViewModel in basketViewModels)
             {
                 var product = await _dbContext.Products.FindAsync(basketViewModel.ID);
 
-                if (product==null)
+                if (product == null)
                 {
                     continue;
                 }
@@ -109,23 +104,21 @@ namespace FrontToBack.Controllers
 
                 newBasket.Add(new BasketViewModel
                 {
-                    ID=product.Id,  
-                    Name=product.Name,  
-                    Price=product.Price,
-                    Count=basketViewModel.Count,
-                    Image=product.Image,
+                    ID = product.Id,
+                    Name = product.Name,
+                    Price = product.Price,
+                    Count = basketViewModel.Count,
+                    Image = product.Image,
                 });
 
             }
-             basket = JsonConvert.SerializeObject(basketViewModels);
+            basket = JsonConvert.SerializeObject(basketViewModels);
             Response.Cookies.Append("basket", basket);
 
             // return Json(newBasket);
             return View(newBasket);
 
         }
-
-
         public async Task<IActionResult> AddToBasket(int? id)
         {
             if (id == null)
@@ -146,10 +139,10 @@ namespace FrontToBack.Controllers
                 basketViewModels = JsonConvert.DeserializeObject<List<BasketViewModel>>(existBasket);
             }
 
-            var existBasketViewModel=basketViewModels.FirstOrDefault(x=>x.ID==id);
-            if (existBasketViewModel==null)
+            var existBasketViewModel = basketViewModels.FirstOrDefault(x => x.ID == id);
+            if (existBasketViewModel == null)
             {
-                
+
                 existBasketViewModel = new BasketViewModel
                 {
                     ID = product.Id
@@ -161,7 +154,7 @@ namespace FrontToBack.Controllers
             {
                 existBasketViewModel.Count++;
             }
-            
+
 
 
             var basket = JsonConvert.SerializeObject(basketViewModels);
@@ -171,23 +164,20 @@ namespace FrontToBack.Controllers
 
 
             return RedirectToAction(nameof(Index));
-          
+
         }
-
-
-
         public IActionResult MinusCount(int? id)
         {
             var basket = Request.Cookies["basket"];
-           
+
             if (id == null)
                 return BadRequest();
-            
+
             if (string.IsNullOrEmpty(basket))
                 return BadRequest();
-            
+
             var products = JsonConvert.DeserializeObject<List<BasketViewModel>>(basket);
-            
+
             foreach (var item in products)
             {
                 if (item.ID == id)
@@ -197,25 +187,24 @@ namespace FrontToBack.Controllers
                         products = products.Where(x => x.ID != id).ToList();
                 }
             }
-            
+
             Response.Cookies.Append("basket", JsonConvert.SerializeObject(products));
             // return View("Basket");
             return RedirectToAction(nameof(Basket));
         }
-
         public IActionResult PlusCount(int? id)
         {
             var basket = Request.Cookies["basket"];
-           
+
             if (id == null)
                 return NotFound();
-           
-           
+
+
             if (string.IsNullOrEmpty(basket))
                 return NotFound();
-            
+
             var products = JsonConvert.DeserializeObject<List<BasketViewModel>>(basket);
-           
+
             foreach (var item in products)
             {
                 if (item.ID == id)
@@ -223,13 +212,12 @@ namespace FrontToBack.Controllers
                     item.Count++;
                 }
             }
-            
+
             Response.Cookies.Append("basket", JsonConvert.SerializeObject(products));
             //Page.Response.Redirect(Page.Request.Url.ToString(), False);
             return RedirectToAction(nameof(Basket));
 
         }
-
         public IActionResult DeleteProduct(int? id)
         {
             var basket = Request.Cookies["basket"];
@@ -246,7 +234,7 @@ namespace FrontToBack.Controllers
             {
                 if (item.ID == id)
                 {
-                   products = products.Where(x => x.ID != id).ToList();
+                    products = products.Where(x => x.ID != id).ToList();
                 }
             }
 

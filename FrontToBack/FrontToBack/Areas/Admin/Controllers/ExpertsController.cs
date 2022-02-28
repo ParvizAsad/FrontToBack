@@ -51,8 +51,8 @@ namespace FrontToBack.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Expert expert)
         {
-            //if (!ModelState.IsValid)
-            //   return View();
+            if (!ModelState.IsValid)
+                return View();
 
             if (!expert.Photo.IsImage())
             {

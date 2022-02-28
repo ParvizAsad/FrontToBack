@@ -5,42 +5,49 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-
 <div class="row">
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">Slider Images</h4>
-            <a class="btn  btn-success" asp-action="Create">Create</a>
-            <div class="table-responsive">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                   @foreach (var item in Model)
-                   {
-                    <tr>
-                        <td>
-                            <img src="~/img/@item.Name" style="width: 150px; height: 150px;"/>
-                        </td>
-                        <td>
-                            <a class="btn btn-warning" asp-action="Update" asp-route-id="@item.ID">Update</a>
-                            <a class="btn btn-success" asp-action="Details" asp-route-id="@item.ID">Details</a>
-                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                        </td>
-                    </tr>
-                   }
-                </tbody>
-            </table>
+            <div class="card-body">
+                <h4 class="card-title">Slider Images</h4>
+                @{
+                    if (ViewBag.CheckCount == true)
+                    {
+                        <a class="btn  btn-success " asp-action="Create">Create</a>
+
+                    }
+
+                    if (ViewBag.CheckCount == false)
+                    {
+                        <h2>5 ədəd şəkil uğurla yüklənmişdir</h2>
+                    }
+                }
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <img src="~/img/@item.Name" style="width: 150px; height: 150px;" />
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-warning" asp-action="Update" asp-route-id="@item.ID">Update</a>
+                                        <a class="btn btn-success" asp-action="Details" asp-route-id="@item.ID">Details</a>
+                                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
         </div>
     </div>
 </div>
-
-
-

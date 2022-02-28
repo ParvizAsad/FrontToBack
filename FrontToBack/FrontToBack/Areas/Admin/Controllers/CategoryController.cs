@@ -5,10 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FrontToBack.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly AppDbContext _dbContext;
@@ -107,7 +109,7 @@ namespace FrontToBack.Areas.Admin.Controllers
             }
 
             existCategory.Name = category.Name;
-            existCategory.Description = category.Description;
+        existCategory.Description = category.Description;
 
             await _dbContext.SaveChangesAsync();
 

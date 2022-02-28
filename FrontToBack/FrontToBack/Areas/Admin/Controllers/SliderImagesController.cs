@@ -16,7 +16,6 @@ namespace FrontToBack.Areas.Admin.Controllers
     {
         private readonly AppDbContext _dbContext;
         private readonly IWebHostEnvironment _environment;
-
         public SliderImagesController(AppDbContext dbContext, IWebHostEnvironment environment)
         {
             _dbContext = dbContext;
@@ -66,18 +65,26 @@ namespace FrontToBack.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SliderImage sliderImage)
         {
-            if (!ModelState.IsValid)
-                return View();
+            //if (!ModelState.IsValid)
+            //    return View();
 
             var maxCount = 5;
             var imageCount = _dbContext.SliderImages.Count();
             var downloadImageCount = maxCount - imageCount;
-            if (sliderImage.Photos.Count() >= downloadImageCount)
+            bool checkImageCount = sliderImage.Photos.Length > downloadImageCount;
+            ViewBag.CheckCount = checkImageCount;
+            if (checkImageCount)
             {
+                if (downloadImageCount==0)
+                {
+                    ModelState.AddModelError("Photos", "Limiti tamamlandığı üçün shekil yükləyə bilməzsiniz.");
+                    return View();
+                }
+
                 ModelState.AddModelError("Photos", $"Max {downloadImageCount} shekil yükləyə bilərsiniz.");
                 return View();
             }
-
+            
             foreach (var photo in sliderImage.Photos)
             {
 
@@ -156,7 +163,6 @@ namespace FrontToBack.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
 
         public async Task<IActionResult> Delete(int? id)
         {

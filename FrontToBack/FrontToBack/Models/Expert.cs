@@ -8,17 +8,17 @@ namespace FrontToBack.Models
     {
         public int ID { get; set; }
         
-        [Required(ErrorMessage ="Boş buraxıla bilməz!")]
+       // [Required(ErrorMessage ="Boş buraxıla bilməz!")]
         public string Image { get; set; }
 
-        [Required(ErrorMessage = "Boş buraxıla bilməz!")]
+      //  [Required(ErrorMessage = "Boş buraxıla bilməz!")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Boş buraxıla bilməz!")]
+       // [Required(ErrorMessage = "Boş buraxıla bilməz!")]
         public string Job { get; set; }
 
         [NotMapped]
-        [Required]
+       // [Required]
         public IFormFile Photo { get; set; }
     }
 }
