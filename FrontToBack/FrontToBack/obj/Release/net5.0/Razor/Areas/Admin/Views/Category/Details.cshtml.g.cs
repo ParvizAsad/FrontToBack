@@ -26,8 +26,15 @@ using FrontToBack.ViewModels;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 4 "D:\P320\4. ASP .NET\2. MVC\3. 03022022 FrontToBack\FrontToBack\FrontToBack\FrontToBack\Areas\Admin\Views\_ViewImports.cshtml"
+using FrontToBack.Areas.Admin.ViewModels;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"ea6881fbe56d811fe05d7478cba2071166aaec36", @"/Areas/Admin/Views/Category/Details.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"64b50e3b2a2b6f51333f038e0707391276a9a4a2", @"/Areas/Admin/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"aa643803ccd10410edaf8a471f9b795e25b8f4c4", @"/Areas/Admin/Views/_ViewImports.cshtml")]
     #nullable restore
     public class Areas_Admin_Views_Category_Details : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<Category>
     #nullable disable
