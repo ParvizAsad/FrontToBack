@@ -1,6 +1,6 @@
-﻿@*@model List<User>*@
+﻿@model List<User>
 @{
-   UserViewModel userViewModel = Model;
+    //UserViewModel userViewModel = Model;
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
@@ -21,17 +21,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in userViewModel.Users)
+                            @foreach (var item in Model)
                             {
                                 <tr>
                                     <td >@item.FullName</td>
                                     <td >@item.UserName</td>
                                     <td >@item.Email </td>
                                     <td>
-                                        <a class="btn btn-warning" asp-action="ChangeRol" asp-route-id="@item.Id">Change Rol</a>
-                                        <a class="btn btn-warning" asp-action="ChangePassword" asp-route-id="@item.Id">Change Password</a>
-                                        <a class="btn btn-success" asp-action="IsActive" asp-route-id="@item.Id">IsActive</a>
-                                        <a class="btn btn-success" asp-action="IsDeactive" asp-route-id="@item.Id">IsDeactive</a>
+                                        <a class="btn btn-primary" asp-controller="User" asp-action="ChangePassword" asp-route-id="@item.Id">Change Password</a>
+                                        <a class="btn btn-danger" asp-controller="User" asp-action="ChageUserStatus" asp-route-id="@item.Id">Change Activity Status</a>
+                                        <a class="btn btn-success" asp-controller="User" asp-action="ChangeRol" asp-route-id="@item.Id">Change Role</a>
                                     </td>
                                 </tr>
                             }

@@ -32,17 +32,17 @@ namespace FrontToBack.Areas.Admin.Controllers
             ViewBag.currentpage = page;
             var users = await _userManager.Users.Skip((page - 1) * take).Take(take).ToListAsync();
             var roles = await _roleManager.Roles.ToListAsync();
-            var UserRoles = await _dbContext.UserRoles.ToListAsync();
+            var userRoles = await _dbContext.UserRoles.ToListAsync();
+            if (users==null && roles==null && userRoles==null)
+            {
+                return NotFound();
+            }
+
             //if (!User.IsInRole("Admin"))
             //{
 
             //}    
-            return View(new UserViewModel()
-            {
-                Users = users,
-                Roles = roles,
-                UserRoles = UserRoles
-            });
+            return View(users);
         }
 
         public async Task<IActionResult> ChangeRol(string id)
@@ -50,12 +50,20 @@ namespace FrontToBack.Areas.Admin.Controllers
             if (id == null)
                 return BadRequest();
 
-            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == id);
+            var user = await _userManager.FindByIdAsync(id);
             if (user == null)
                 return NotFound();
 
+            var roles = await _userManager.GetRolesAsync(user);
+            if (roles == null)
+            {
+                return NotFound();
+            }
+
             return View();
         }
+
+
 
         public async Task<IActionResult> ChangePassword(string id)
         {
@@ -76,30 +84,79 @@ namespace FrontToBack.Areas.Admin.Controllers
             if (id == null)
                 return NotFound();
 
-            //if (!ModelState.IsValid)
-            //    return View(changePasswordViewModel);
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Try again");
 
-            var user = await _userManager.FindByIdAsync(id);
+                return View();
+            }
+
+            var user = await _userManager.FindByNameAsync(changePasswordViewModel.Username);
             if (user == null)
-                return NotFound();
-
-            var oldPassword = await _userManager.CheckPasswordAsync(user, changePasswordViewModel.OldPassword);
-            if (!oldPassword)
+            {
                 return BadRequest();
+            }
 
-            await _userManager.ChangePasswordAsync(user, changePasswordViewModel.OldPassword, changePasswordViewModel.Password);
+            var result = await _userManager.ChangePasswordAsync(user, changePasswordViewModel.OldPassword, changePasswordViewModel.Password);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
 
-            return View(nameof(Index));
+                return View();
+            }
+
+            return RedirectToAction(nameof(Index), "Dashboard");
         }
 
-        public async Task<IActionResult> IsActive()
+        public async Task<IActionResult> ChageUserStatus(string id)
         {
-            return View();
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+
+            var user = await this._userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+
         }
 
-        public async Task<IActionResult> IsDeactive()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("ChageUserStatus")]
+        public async Task<IActionResult> ChangeUserActivityStatus(string id)
         {
-            return View();
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+
+            var user = await this._userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (user.IsDeleted)
+            {
+                user.IsDeleted = false;
+            }
+            else if (!user.IsDeleted)
+            {
+                user.IsDeleted = true;
+
+            }
+
+            await _userManager.UpdateAsync(user);
+
+            return RedirectToAction(nameof(Index));
         }
 
 

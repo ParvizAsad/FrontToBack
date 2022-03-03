@@ -7,5 +7,6 @@ namespace FrontToBack.Models
     {
         [Required]
         public string FullName { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

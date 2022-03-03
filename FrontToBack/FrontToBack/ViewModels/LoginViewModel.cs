@@ -9,6 +9,7 @@ namespace FrontToBack.ViewModels
 
         [Required, DataType(DataType.Password)]
         public string Password { get; set; }
+        public bool KeepMeSignedIn { get; set; }
 
     }
 }
