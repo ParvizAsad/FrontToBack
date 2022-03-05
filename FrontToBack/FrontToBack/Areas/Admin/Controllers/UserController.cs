@@ -45,26 +45,6 @@ namespace FrontToBack.Areas.Admin.Controllers
             return View(users);
         }
 
-        public async Task<IActionResult> ChangeRol(string id)
-        {
-            if (id == null)
-                return BadRequest();
-
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-                return NotFound();
-
-            var roles = await _userManager.GetRolesAsync(user);
-            if (roles == null)
-            {
-                return NotFound();
-            }
-
-            return View();
-        }
-
-
-
         public async Task<IActionResult> ChangePassword(string id)
         {
             if (id == null)
@@ -84,12 +64,12 @@ namespace FrontToBack.Areas.Admin.Controllers
             if (id == null)
                 return NotFound();
 
-            if (!ModelState.IsValid)
-            {
-                ModelState.AddModelError("", "Try again");
+            //if (!ModelState.IsValid)
+            //{
+            //    ModelState.AddModelError("", "Try again");
 
-                return View();
-            }
+            //    return View();
+            //}
 
             var user = await _userManager.FindByNameAsync(changePasswordViewModel.Username);
             if (user == null)
